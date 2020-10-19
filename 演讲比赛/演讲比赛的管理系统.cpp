@@ -6,6 +6,10 @@ using namespace std;
 int main()
 {
 	speechmanager sm;
+	/*for (map<int, speaker>::iterator it = sm.m_speaker.begin(); it != sm.m_speaker.end(); it++)
+	{
+		cout << "选手编号" << it->first << " " << "选手姓名" << it->second.m_name << endl;
+	}*/
 	int chioce = 0;
 	while (true)
 	{
@@ -16,6 +20,7 @@ int main()
 		switch (chioce)
 		{
 		case 1://开始比赛
+			sm.startmatch();
 			break;
 		case 2://查看记录
 			break;

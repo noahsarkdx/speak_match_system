@@ -4,6 +4,7 @@ using namespace std;
 #include <vector>
 #include <map>
 #include "speaker.h"
+#include <fstream>
 
 //设计演讲管理类
 class speechmanager
@@ -20,4 +21,10 @@ public:
 	map<int, speaker> m_speaker;//存放编号以及对应选手
 	int m_index;
 	void initspeaker();
+	void creatspeaker();
+	void startmatch();//开始比赛
+	void chouqian();
+	void bisaiing();
+	void showscore();
+	void savefile();
 };
