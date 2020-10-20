@@ -10,6 +10,7 @@ speechmanager::speechmanager()
 {
 	this->initspeaker();
 	this->creatspeaker();
+	this->loadfile();
 }
 
 void speechmanager::showmanue()
@@ -38,6 +39,7 @@ void speechmanager::initspeaker()
 	this->victory.clear();
 	this->m_speaker.clear();
 	this->m_index = 1;
+	this->m_record.clear();
 }
 void speechmanager::creatspeaker()
 {
@@ -75,6 +77,9 @@ void speechmanager::startmatch()
 	//显示比赛结果
 	this->showscore();
 	this->savefile();
+	this->initspeaker();
+	this->creatspeaker();
+	this->loadfile();
 	cout << "本届比赛完毕" << endl;
 	system("pause");
 	system("cls");
@@ -202,6 +207,90 @@ void speechmanager::savefile()
 	ofs << endl;
 	ofs.close();
 	cout << "记录保存完" << endl;
+	this->fileisempty = false;
+}
+void speechmanager::loadfile()
+{
+	ifstream ifs("speech.csv", ios::in);
+	if (!ifs.is_open())
+	{
+		this->fileisempty = true;
+		cout << "文件不存在" << endl;
+		ifs.close();
+		return;
+	}
+	char ch;
+	ifs >> ch;
+	if (ifs.eof())
+	{
+		this->fileisempty = true;
+		cout << "文件为空" << endl;
+		ifs.close();
+		return;
+	}
+	this->fileisempty = false;
+	ifs.putback(ch);//将上面读取的单个字符再放回来
+	string data;
+	int index = 0;
+	while (ifs>>data)
+	{
+		//cout << data << endl;
+		vector<string>v;
+		int pos = -1;//查到逗号的位置
+		int start = 0;
+		while (true)
+		{
+			pos = data.find(",", start);
+			if (pos == -1)
+			{
+				break;
+			}
+			string temp = data.substr(start, pos - start);
+			v.push_back(temp);
+			start = pos + 1;
+		}
+		this->m_record.insert(make_pair(index, v));
+		index++;
+	}
+	ifs.close();
+}
+void speechmanager::showrecord()
+{
+	if (this->fileisempty)
+	{
+		cout << "文件不存在或为空" << endl;
+	}
+	else
+	{
+		for (int i = 0; i < this->m_record.size(); i++)
+		{
+			cout << "第" << i + 1 << "届比赛结果如下" << endl;
+			cout << "冠军编号： " << this->m_record[i][0] << " 选手姓名： " << this->m_record[i][1] << " 冠军得分： " << this->m_record[i][2] << endl;
+			cout << "亚军编号： " << this->m_record[i][3] << " 选手姓名： " << this->m_record[i][4] << " 亚军得分： " << this->m_record[i][5] << endl;
+			cout << "季军编号： " << this->m_record[i][6] << " 选手姓名： " << this->m_record[i][7] << " 季军得分： " << this->m_record[i][8] << endl;
+		}
+	}
+	system("pause");
+	system("cls");
+}
+void speechmanager::clearrecord()
+{
+	cout << "是否确认清空数据？" << endl;
+	cout << "1、是" << endl;
+	cout << "2、否" << endl;
+	int select = 0;
+	cin >> select;
+	if (select == 1)
+	{
+		ofstream ofs("speech.csv", ios::trunc);
+		ofs.close();
+		this->initspeaker();
+		this->creatspeaker();
+		this->loadfile();
+		cout << "清空成功" << endl;
+	}
+	system("pause");
+	system("cls");
 }
 speechmanager::~speechmanager()
 {

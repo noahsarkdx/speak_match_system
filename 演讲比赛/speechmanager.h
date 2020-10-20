@@ -27,4 +27,9 @@ public:
 	void bisaiing();
 	void showscore();
 	void savefile();
+	void loadfile();
+	bool fileisempty;
+	map<int, vector<string>>m_record;//´æ·ÅÍù½ì¼ÇÂ¼µÄÈÝÆ÷
+	void showrecord();
+	void clearrecord();
 };

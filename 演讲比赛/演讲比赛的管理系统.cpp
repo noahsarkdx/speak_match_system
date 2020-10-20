@@ -2,9 +2,11 @@
 using namespace std;
 #include "speechmanager.h"
 #include "speaker.h"
+#include <ctime>
 
 int main()
 {
+	srand((unsigned int)time(NULL));
 	speechmanager sm;
 	/*for (map<int, speaker>::iterator it = sm.m_speaker.begin(); it != sm.m_speaker.end(); it++)
 	{
@@ -23,8 +25,10 @@ int main()
 			sm.startmatch();
 			break;
 		case 2://查看记录
+			sm.showrecord();
 			break;
 		case 3://清空记录
+			sm.clearrecord();
 			break;
 		case 0://退出系统
 			sm.exitsystem();
